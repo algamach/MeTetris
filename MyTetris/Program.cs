@@ -5,32 +5,48 @@ internal class Program
     private static void Main(string[] args)
     {
         Field.Inint();
-        Field.Test();
-        Console.ReadKey();
-        Figure[] figArr = new Figure[7];
-        figArr[0] = new S(2, 3);
-        figArr[1] = new Z(1, 1);
-        figArr[2] = new Square(9, 1);
-        figArr[3] = new Stick(4, 4);
-        figArr[4] = new T(3, 7);
-        figArr[5] = new J(7, 3);
-        figArr[6] = new L(10, 9);
+        Test();
+    }
 
-
-
-
-        foreach (Figure i in figArr)
+    private static void MoveByButton(ConsoleKeyInfo cki, Figure figure)
+    {
+        switch (cki.Key)
         {
-            Thread.Sleep(1000);
-            i.Draw();
+            case ConsoleKey.Spacebar:
+                figure.Rotate(); break;
+            case ConsoleKey.UpArrow:
+                figure.Move(Direction.UP); break;
+            case ConsoleKey.DownArrow:
+                figure.Move(Direction.DOWN); break;
+            case ConsoleKey.RightArrow:
+                figure.Move(Direction.RIGHT); break;
+            case ConsoleKey.LeftArrow:
+                figure.Move(Direction.LEFT); break;
         }
-        foreach (Figure i in figArr)
+    }
+
+    static void Test()
+    {
+
+        Figure currenFigure = Figure.GetRandomFigure(Field.Width / 2, 1);
+
+        while (true)
         {
-            Thread.Sleep(1000);
-            i.Hide();
+            Figure nextFigure = Figure.GetRandomFigure(16, 5);
+            nextFigure.Draw();
+            currenFigure.Draw();
+
+            ConsoleKeyInfo cki;
+            do
+            {
+                cki = Console.ReadKey();
+                MoveByButton(cki, currenFigure);
+            } while (cki.Key != ConsoleKey.Enter);
+
+            nextFigure.FullyHide();
+            currenFigure = nextFigure;
+            currenFigure.MoveFromNextToCurrent();
+            nextFigure = Figure.GetRandomFigure(16, 5);
         }
-
-        Console.ReadKey();
-
     }
 }

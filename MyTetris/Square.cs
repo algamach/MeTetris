@@ -21,5 +21,15 @@ namespace MyTetris
             Blocks[3] = new Block(x + 2, y+1);
             Color = Color.YELLOW;
         }
+
+        public override void RotateReverse()
+        {
+
+        }
+
+        internal override void TryRotate()
+        {
+
+        }
     }
 }
