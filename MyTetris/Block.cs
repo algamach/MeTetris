@@ -62,16 +62,19 @@
             }
             Console.Write("[]");
             Console.ResetColor();
+            Console.SetCursorPosition(0, 0);
         }
         public void Hide()
         {
             Console.SetCursorPosition(X, Y);
             Console.Write(" .");
+            Console.SetCursorPosition(0, 0);
         }
         public void FullyHide()
         {
             Console.SetCursorPosition(X, Y);
             Console.Write("  ");
+            Console.SetCursorPosition(0, 0);
         }
     }
 }

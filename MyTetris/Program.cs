@@ -5,32 +5,24 @@ internal class Program
     private static void Main(string[] args)
     {
         Field.Inint();
-        Field.Test();
-        Console.ReadKey();
-        Figure[] figArr = new Figure[7];
-        figArr[0] = new S(2, 3);
-        figArr[1] = new Z(1, 1);
-        figArr[2] = new Square(9, 1);
-        figArr[3] = new Stick(4, 4);
-        figArr[4] = new T(3, 7);
-        figArr[5] = new J(7, 3);
-        figArr[6] = new L(10, 9);
+        //Field.Test2();
+        GeneratingTest();
+    }
+    static void GeneratingTest()
+    {
+        Figure currenFigure = Figure.GetRandomFigure(Field.Width / 2, 1);
 
-
-
-
-        foreach (Figure i in figArr)
+        while (true)
         {
-            Thread.Sleep(1000);
-            i.Draw();
+            Figure nextFigure = Figure.GetRandomFigure(16, 5);
+            nextFigure.Draw();
+            currenFigure.Draw();
+            Console.ReadKey();
+            currenFigure.Hide();
+            nextFigure.FullyHide();
+            currenFigure = nextFigure;
+            currenFigure.MoveFromNextToCurrent();
+            nextFigure = Figure.GetRandomFigure(16, 5);
         }
-        foreach (Figure i in figArr)
-        {
-            Thread.Sleep(1000);
-            i.Hide();
-        }
-
-        Console.ReadKey();
-
     }
 }
