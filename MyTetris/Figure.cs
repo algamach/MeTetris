@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MyTetris
+﻿namespace MyTetris
 {
     internal abstract class Figure
     {
@@ -16,24 +9,42 @@ namespace MyTetris
         public void Draw()
         {
             foreach (var block in Blocks)
-            {
                 block.Draw(Color);
-            }
         }
         public void Hide()
         {
             foreach (var block in Blocks)
-            {
                 block.Hide();
-            }
         }
         public void FullyHide()
         {
             foreach (var block in Blocks)
-            {
                 block.FullyHide();
-            }
         }
+        public void Move(Direction direction)
+        {
+            Hide();
+
+            foreach (var block in Blocks)
+                block.Move(direction);
+
+            if (!MoveCheck())
+                foreach (var block in Blocks)
+                    block.MoveReverse(direction);
+
+            Draw();
+        }
+        private bool MoveCheck()
+        {
+            bool check = true;
+
+            foreach (var block in Blocks)
+                if (!block.MoveCheck())
+                    check = false;
+
+            return check;
+        }
+
         public static Figure GetRandomFigure(int x, int y)
         {
             Random random = new Random();
@@ -72,7 +83,6 @@ namespace MyTetris
             {
                 block.X -= 22;
                 block.Y -= 4;
-
             }
         }
     }

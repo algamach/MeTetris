@@ -5,11 +5,28 @@ internal class Program
     private static void Main(string[] args)
     {
         Field.Inint();
-        //Field.Test2();
-        GeneratingTest();
+
+        Test();
     }
-    static void GeneratingTest()
+
+    private static void MoveByButton(ConsoleKeyInfo cki, Figure figure)
     {
+        switch (cki.Key)
+        {
+            case ConsoleKey.UpArrow:
+                figure.Move(Direction.UP); break;
+            case ConsoleKey.DownArrow:
+                figure.Move(Direction.DOWN); break;
+            case ConsoleKey.RightArrow:
+                figure.Move(Direction.RIGHT); break;
+            case ConsoleKey.LeftArrow:
+                figure.Move(Direction.LEFT); break;
+        }
+    }
+
+    static void Test()
+    {
+
         Figure currenFigure = Figure.GetRandomFigure(Field.Width / 2, 1);
 
         while (true)
@@ -17,8 +34,15 @@ internal class Program
             Figure nextFigure = Figure.GetRandomFigure(16, 5);
             nextFigure.Draw();
             currenFigure.Draw();
-            Console.ReadKey();
-            currenFigure.Hide();
+
+            ConsoleKeyInfo cki;
+            do
+            {
+
+                cki = Console.ReadKey();
+                MoveByButton(cki, currenFigure);
+            } while (cki.Key != ConsoleKey.Enter);
+
             nextFigure.FullyHide();
             currenFigure = nextFigure;
             currenFigure.MoveFromNextToCurrent();

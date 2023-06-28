@@ -76,5 +76,50 @@
             Console.Write("  ");
             Console.SetCursorPosition(0, 0);
         }
+
+        internal void Move(Direction direction)
+        {
+            switch (direction)
+            {
+                case Direction.UP:
+                    Y--;
+                    break;
+                case Direction.DOWN:
+                    Y++;
+                    break;
+                case Direction.LEFT:
+                    X-=2;
+                    break;
+                case Direction.RIGHT:
+                    X+=2;
+                    break;
+            }
+        }
+        internal void MoveReverse(Direction direction)
+        {
+            switch (direction)
+            {
+                case Direction.UP:
+                    Y++;
+                    break;
+                case Direction.DOWN:
+                    Y--;
+                    break;
+                case Direction.LEFT:
+                    X+=2;
+                    break;
+                case Direction.RIGHT:
+                    X-=2;
+                    break;
+            }
+        }
+        internal bool MoveCheck()
+        {
+            if ((X>= 19 && X <=38)&&(Y>= 0 && Y <=19))
+                    return true;
+            else return false;
+        }
+
+        
     }
 }
