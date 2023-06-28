@@ -5,7 +5,6 @@ internal class Program
     private static void Main(string[] args)
     {
         Field.Inint();
-
         Test();
     }
 
@@ -13,6 +12,8 @@ internal class Program
     {
         switch (cki.Key)
         {
+            case ConsoleKey.Spacebar:
+                figure.Rotate(); break;
             case ConsoleKey.UpArrow:
                 figure.Move(Direction.UP); break;
             case ConsoleKey.DownArrow:
@@ -38,7 +39,6 @@ internal class Program
             ConsoleKeyInfo cki;
             do
             {
-
                 cki = Console.ReadKey();
                 MoveByButton(cki, currenFigure);
             } while (cki.Key != ConsoleKey.Enter);

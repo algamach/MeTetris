@@ -113,13 +113,11 @@
                     break;
             }
         }
-        internal bool MoveCheck()
+        internal bool Validation()
         {
             if ((X>= 19 && X <=38)&&(Y>= 0 && Y <=19))
                     return true;
             else return false;
         }
-
-        
     }
 }

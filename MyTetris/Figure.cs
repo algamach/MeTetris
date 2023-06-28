@@ -28,23 +28,32 @@
             foreach (var block in Blocks)
                 block.Move(direction);
 
-            if (!MoveCheck())
+            if (!Validation())
                 foreach (var block in Blocks)
                     block.MoveReverse(direction);
 
             Draw();
         }
-        private bool MoveCheck()
+        private bool Validation()
         {
             bool check = true;
 
             foreach (var block in Blocks)
-                if (!block.MoveCheck())
+                if (!block.Validation())
                     check = false;
 
             return check;
         }
-
+        public void Rotate()
+        {
+            Hide();
+            TryRotate();
+            if (!Validation())
+                RotateReverse();
+            Draw();
+        }
+        internal abstract void TryRotate();
+        public abstract void RotateReverse();
         public static Figure GetRandomFigure(int x, int y)
         {
             Random random = new Random();
@@ -85,5 +94,6 @@
                 block.Y -= 4;
             }
         }
+
     }
 }
