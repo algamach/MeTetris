@@ -41,7 +41,7 @@ internal class Program
             {
                 cki = Console.ReadKey();
                 MoveByButton(cki, currenFigure);
-            } while (cki.Key != ConsoleKey.Enter);
+            } while (currenFigure.Validation()==ValidationResult.SUCCESS);
 
             nextFigure.FullyHide();
             currenFigure = nextFigure;

@@ -12,10 +12,15 @@ namespace MyTetris
         private const int _height = 20;
         public static int Width { get { return _width; } }
         public static int Height { get { return _height; } }
+        public static Color[,] BlocksOnField = new Color[10, 20];
         public static void Inint()
         {
             Console.SetWindowSize(60, 22);
             Console.SetBufferSize(60, 22);
+
+            for (int i = 0; i < 10; i++)
+                for (int j = 0; j < 20; j++)
+                    BlocksOnField[i, j] = Color.GRAY;
 
             for (int i = 0; i < Height +1 ; i++)
             {
@@ -54,6 +59,12 @@ namespace MyTetris
             Console.Write("Следующая фигура:");
 
             Console.SetCursorPosition(0,0);
+        }
+        public static bool IsBlockStrike(int x, int y)
+        {
+            if (BlocksOnField[(x - 19) / 2, y] != Color.GRAY)
+                return true;
+            else return false;
         }
         public static void Test()
         {

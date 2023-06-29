@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace MyTetris
 {
-    public enum Color
+    internal enum ValidationResult
     {
-        YELLOW, RED, GREEN, MAGENTA, BLUE, CYAN, DARK_YELLOW, GRAY
+        SUCCESS, BORDER, BLOCKS_OR_DOWN_BORDER
     }
 }
