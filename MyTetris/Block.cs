@@ -1,4 +1,6 @@
-﻿namespace MyTetris
+﻿using MyTetris;
+
+namespace MyTetris
 {
     internal class Block
     {
@@ -88,10 +90,10 @@
                     Y++;
                     break;
                 case Direction.LEFT:
-                    X-=2;
+                    X -= 2;
                     break;
                 case Direction.RIGHT:
-                    X+=2;
+                    X += 2;
                     break;
             }
         }
@@ -106,18 +108,32 @@
                     Y--;
                     break;
                 case Direction.LEFT:
-                    X+=2;
+                    X += 2;
                     break;
                 case Direction.RIGHT:
-                    X-=2;
+                    X -= 2;
                     break;
             }
         }
-        internal bool Validation()
+        internal ValidationResult Validation()
         {
-            if ((X>= 19 && X <=38)&&(Y>= 0 && Y <=19))
-                    return true;
-            else return false;
+            if (X < 19 || X > 38 || Y < 0)
+                return ValidationResult.BORDER;
+            else if (Y>19)
+                return ValidationResult.BLOCKS_OR_DOWN_BORDER;
+            else   
+                if (Field.IsBlockStrike(X,Y))
+                    return ValidationResult.BLOCKS_OR_DOWN_BORDER;
+            else
+                return ValidationResult.SUCCESS;
+            /*
+            if ((X >= 19 && X <= 38) && (Y >= 0 && Y <= 19))
+                return ValidationResult.SUCCESS;
+            */
+        }
+        public void AddBlockOnField(Color color)
+        {
+            Field.BlocksOnField[(X - 19) / 2, Y] = color;
         }
     }
 }

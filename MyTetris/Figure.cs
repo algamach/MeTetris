@@ -4,7 +4,19 @@
     {
         public const int LENGTH = 4;
         public Block[] Blocks = new Block[LENGTH];
-        public Color Color;
+        private Color _color;
+
+        public Color Color
+        {
+            get
+            {
+                return _color;
+            }
+            set
+            {
+                _color = value;
+            }
+        }
 
         public void Draw()
         {
@@ -21,6 +33,24 @@
             foreach (var block in Blocks)
                 block.FullyHide();
         }
+        public ValidationResult Validation()
+        {
+            ValidationResult result = ValidationResult.SUCCESS;
+
+            foreach (var block in Blocks)
+                switch (block.Validation())
+                {
+                    case ValidationResult.BORDER:
+                        result = ValidationResult.BORDER;
+                        break;
+                    case ValidationResult.BLOCKS_OR_DOWN_BORDER:
+                        if (result != ValidationResult.BORDER)
+                            result = ValidationResult.BLOCKS_OR_DOWN_BORDER;
+                        break;
+                }
+
+            return result;
+        }
         public void Move(Direction direction)
         {
             Hide();
@@ -28,27 +58,29 @@
             foreach (var block in Blocks)
                 block.Move(direction);
 
-            if (!Validation())
-                foreach (var block in Blocks)
-                    block.MoveReverse(direction);
-
+            switch (Validation())
+            {
+                case ValidationResult.BORDER:
+                    foreach (var block in Blocks)
+                        block.MoveReverse(direction);
+                    break;
+                case ValidationResult.BLOCKS_OR_DOWN_BORDER:
+                    if (direction == Direction.DOWN)
+                        foreach (var block in Blocks)
+                        {
+                            block.MoveReverse(direction);
+                            block.AddBlockOnField(Color);
+                        }
+                    else goto case ValidationResult.BORDER;
+                    break;
+            }
             Draw();
-        }
-        private bool Validation()
-        {
-            bool check = true;
-
-            foreach (var block in Blocks)
-                if (!block.Validation())
-                    check = false;
-
-            return check;
         }
         public void Rotate()
         {
             Hide();
             TryRotate();
-            if (!Validation())
+            if (Validation() != ValidationResult.SUCCESS)
                 RotateReverse();
             Draw();
         }
