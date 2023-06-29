@@ -66,16 +66,51 @@
                     break;
                 case ValidationResult.BLOCKS_OR_DOWN_BORDER:
                     if (direction == Direction.DOWN)
+                    {
                         foreach (var block in Blocks)
                         {
                             block.MoveReverse(direction);
                             block.AddBlockOnField(Color);
                         }
+                        Draw();
+                        CheckDeleteLine();
+                    }
                     else goto case ValidationResult.BORDER;
                     break;
             }
-            Draw();
+           if (Validation() != ValidationResult.BLOCKS_OR_DOWN_BORDER)
+                Draw();
         }
+        private static void CheckDeleteLine()
+        {
+            for (int j = 0; j<Field.Height; j++)
+            {
+                int k = 0;
+                for (int i =0; i<Field.Width; i++)
+                {
+                    if (Field.BlocksOnField[i, j] != Color.GRAY)
+                        k++;
+                }
+                if (k == Field.Width)
+                    DeleteLine(j);
+            }
+        }
+        private static void DeleteLine(int line)
+        {
+            for (int j = line; j >= 0; j--)
+            {
+                if (j==0)
+                {
+                    for (int i=0; i<Field.Width; i++)
+                        Field.BlocksOnField[i,j] = Color.GRAY;
+                }
+                else
+                    for (int i=0; i<Field.Width; i++)
+                        Field.BlocksOnField[i,j] = Field.BlocksOnField[i,j-1];
+            }
+            Field.Redraw();
+        }
+
         public void Rotate()
         {
             Hide();

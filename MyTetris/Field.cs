@@ -13,6 +13,14 @@ namespace MyTetris
         public static int Width { get { return _width; } }
         public static int Height { get { return _height; } }
         public static Color[,] BlocksOnField = new Color[10, 20];
+       
+        public static bool IsBlockStrike(int x, int y)
+        {
+            if (BlocksOnField[(x - 19) / 2, y] != Color.GRAY)
+                return true;
+            else return false;
+        }
+
         public static void Inint()
         {
             Console.SetWindowSize(60, 22);
@@ -22,19 +30,19 @@ namespace MyTetris
                 for (int j = 0; j < 20; j++)
                     BlocksOnField[i, j] = Color.GRAY;
 
-            for (int i = 0; i < Height +1 ; i++)
+            for (int i = 0; i < Height + 1; i++)
             {
                 Console.SetCursorPosition(17, i);
                 Console.Write("<!");
-                Console.SetCursorPosition(17 + 2 + Width*2, i);
+                Console.SetCursorPosition(17 + 2 + Width * 2, i);
                 Console.Write("!>");
             }
-            for (int i = 1; i <= Width*2; i++)
+            for (int i = 1; i <= Width * 2; i++)
             {
                 Console.SetCursorPosition(18 + i, Height);
                 Console.Write("=");
 
-                Console.SetCursorPosition(18 + i, Height+1);
+                Console.SetCursorPosition(18 + i, Height + 1);
                 if (i % 2 == 0)
                 {
                     Console.Write("/");
@@ -58,14 +66,9 @@ namespace MyTetris
             Console.SetCursorPosition(42, 2);
             Console.Write("Следующая фигура:");
 
-            Console.SetCursorPosition(0,0);
+            Console.SetCursorPosition(0, 0);
         }
-        public static bool IsBlockStrike(int x, int y)
-        {
-            if (BlocksOnField[(x - 19) / 2, y] != Color.GRAY)
-                return true;
-            else return false;
-        }
+
         public static void Test()
         {
             S test1 = new S(4, 19);
@@ -104,6 +107,20 @@ namespace MyTetris
             {
                 Thread.Sleep(1000);
                 i.Hide();
+            }
+        }
+
+        internal static void Redraw()
+        {
+            for (int i= 0; i < Width; i++)
+            {
+                for (int j= 0; j < Height; j++)
+                {
+                    if (BlocksOnField[i, j] == Color.GRAY)
+                        new Block(i * 2 + 19, j).Hide();
+                    else
+                        new Block(i * 2 + 19, j).Draw(BlocksOnField[i, j]);
+                }
             }
         }
     }   
