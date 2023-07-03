@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MyTetris
+﻿namespace MyTetris
 {
     internal class Field
     {
@@ -71,8 +65,10 @@ namespace MyTetris
             Console.SetCursorPosition(10, 2);
             Console.WriteLine(Score.Count);
         }
-        public static void Inint()
+        public static void Inint(ref Figure currentFigure, ref Figure nextFigure)
         {
+            GetFirstFigures(ref currentFigure, ref nextFigure);
+
             Console.SetWindowSize(60, 22);
             Console.SetBufferSize(60, 22);
 
@@ -112,51 +108,19 @@ namespace MyTetris
             }
             Console.SetCursorPosition(4, 2);
             Console.Write("Счет: ");
+            Score.UpdateScore(0);
 
             Console.SetCursorPosition(42, 2);
             Console.Write("Следующая фигура:");
 
             Console.SetCursorPosition(0, 0);
         }
-        public static void Test()
+        private static void GetFirstFigures(ref Figure currentFigure, ref Figure nextFigure)
         {
-            S test1 = new S(4, 19);
-            test1.Draw();
-
-            T test2 = new T(6, 19);
-            test2.Draw();
-
-            //счет
-            Console.SetCursorPosition(10, 2);
-            Console.WriteLine("690");
-
-            //след. фигура            
-            Z test3 = new Z(16, 5);
-            test3.Draw();
-
-            Console.SetCursorPosition(0, 0);
+            currentFigure = Figure.GetRandomFigure(Field.Width / 2, 1);
+            nextFigure = Figure.GetRandomFigure(16, 5);
+            currentFigure.Draw();
+            nextFigure.Draw();
         }
-        public static void Test2()
-        {
-            Figure[] figArr = new Figure[7];
-            figArr[0] = new S(2, 3);
-            figArr[1] = new Z(1, 1);
-            figArr[2] = new Square(9, 1);
-            figArr[3] = new Stick(4, 4);
-            figArr[4] = new T(3, 7);
-            figArr[5] = new J(7, 3);
-            figArr[6] = new L(10, 9);
-
-            foreach (Figure i in figArr)
-            {
-                Thread.Sleep(1000);
-                i.Draw();
-            }
-            foreach (Figure i in figArr)
-            {
-                Thread.Sleep(1000);
-                i.Hide();
-            }
-        }
-    }   
+    }
 }
