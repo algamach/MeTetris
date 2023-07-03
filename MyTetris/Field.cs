@@ -13,14 +13,64 @@ namespace MyTetris
         public static int Width { get { return _width; } }
         public static int Height { get { return _height; } }
         public static Color[,] BlocksOnField = new Color[10, 20];
-       
         public static bool IsBlockStrike(int x, int y)
         {
             if (BlocksOnField[(x - 19) / 2, y] != Color.GRAY)
                 return true;
             else return false;
         }
-
+        internal static void CheckDeleteLine()
+        {
+            int lines = 0;
+            for (int j = 0; j < Height; j++)
+            {
+                int line = 0;
+                for (int i = 0; i < Width; i++)
+                {
+                    if (BlocksOnField[i, j] != Color.GRAY)
+                        line++;
+                }
+                if (line == Width)
+                {
+                    DeleteLine(j);
+                    lines++;
+                }
+            }
+            Score.UpdateScore(lines);
+        }
+        private static void DeleteLine(int line)
+        {
+            for (int j = line; j >= 0; j--)
+            {
+                if (j == 0)
+                {
+                    for (int i = 0; i < Width; i++)
+                        BlocksOnField[i, j] = Color.GRAY;
+                }
+                else
+                    for (int i = 0; i < Width; i++)
+                        BlocksOnField[i, j] = BlocksOnField[i, j - 1];
+            }
+            Redraw();
+        }
+        internal static void Redraw()
+        {
+            for (int i = 0; i < Width; i++)
+            {
+                for (int j = 0; j < Height; j++)
+                {
+                    if (BlocksOnField[i, j] == Color.GRAY)
+                        new Block(i * 2 + 19, j).Hide();
+                    else
+                        new Block(i * 2 + 19, j).Draw(BlocksOnField[i, j]);
+                }
+            }
+        }
+        internal static void WriteScore()
+        {
+            Console.SetCursorPosition(10, 2);
+            Console.WriteLine(Score.Count);
+        }
         public static void Inint()
         {
             Console.SetWindowSize(60, 22);
@@ -68,7 +118,6 @@ namespace MyTetris
 
             Console.SetCursorPosition(0, 0);
         }
-
         public static void Test()
         {
             S test1 = new S(4, 19);
@@ -107,20 +156,6 @@ namespace MyTetris
             {
                 Thread.Sleep(1000);
                 i.Hide();
-            }
-        }
-
-        internal static void Redraw()
-        {
-            for (int i= 0; i < Width; i++)
-            {
-                for (int j= 0; j < Height; j++)
-                {
-                    if (BlocksOnField[i, j] == Color.GRAY)
-                        new Block(i * 2 + 19, j).Hide();
-                    else
-                        new Block(i * 2 + 19, j).Draw(BlocksOnField[i, j]);
-                }
             }
         }
     }   

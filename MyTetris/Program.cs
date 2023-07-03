@@ -7,7 +7,6 @@ internal class Program
         Field.Inint();
         Test();
     }
-
     private static void MoveByButton(ConsoleKeyInfo cki, Figure figure)
     {
         switch (cki.Key)
@@ -24,10 +23,8 @@ internal class Program
                 figure.Move(Direction.LEFT); break;
         }
     }
-
     static void Test()
     {
-
         Figure currenFigure = Figure.GetRandomFigure(Field.Width / 2, 1);
 
         while (true)
@@ -37,16 +34,38 @@ internal class Program
             currenFigure.Draw();
 
             ConsoleKeyInfo cki;
-            do
+            while (currenFigure.Life)
             {
                 cki = Console.ReadKey();
                 MoveByButton(cki, currenFigure);
-            } while (currenFigure.Validation()==ValidationResult.SUCCESS);
-
+            }
             nextFigure.FullyHide();
             currenFigure = nextFigure;
             currenFigure.MoveFromNextToCurrent();
             nextFigure = Figure.GetRandomFigure(16, 5);
+        }
+    }
+    static void TestSquare()
+    {
+        Square currenFigure = new Square(Field.Width / 2, 1);
+
+        while (true)
+        {
+            Square nextFigure =new Square(16, 5);
+            nextFigure.Draw();
+            currenFigure.Draw();
+
+            ConsoleKeyInfo cki;
+            while (currenFigure.Life)
+            {
+                cki = Console.ReadKey();
+                MoveByButton(cki, currenFigure);
+            } 
+
+            nextFigure.FullyHide();
+            currenFigure = nextFigure;
+            currenFigure.MoveFromNextToCurrent();
+            nextFigure = new Square(16, 5);
         }
     }
 }
