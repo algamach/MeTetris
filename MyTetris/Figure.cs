@@ -5,7 +5,18 @@
         public const int LENGTH = 4;
         public Block[] Blocks = new Block[LENGTH];
         private Color _color;
-
+        private bool _life = true;
+        public bool Life
+        {
+            get 
+            { 
+                return _life; 
+            }
+            set 
+            { 
+                _life = value; 
+            }
+        }
         public Color Color
         {
             get
@@ -17,7 +28,6 @@
                 _color = value;
             }
         }
-
         public void Draw()
         {
             foreach (var block in Blocks)
@@ -48,7 +58,6 @@
                             result = ValidationResult.BLOCKS_OR_DOWN_BORDER;
                         break;
                 }
-
             return result;
         }
         public void Move(Direction direction)
@@ -63,19 +72,29 @@
                 case ValidationResult.BORDER:
                     foreach (var block in Blocks)
                         block.MoveReverse(direction);
+                    Draw();
                     break;
                 case ValidationResult.BLOCKS_OR_DOWN_BORDER:
                     if (direction == Direction.DOWN)
+                    {
                         foreach (var block in Blocks)
                         {
                             block.MoveReverse(direction);
-                            block.AddBlockOnField(Color);
+                            block.AddBlockOnField(Color);                            
                         }
+                        Draw();
+                        Life = false;
+                        Field.CheckDeleteLine();
+                    }
                     else goto case ValidationResult.BORDER;
                     break;
+                case ValidationResult.SUCCESS:
+                    Draw();
+                    break;
             }
-            Draw();
         }
+        
+
         public void Rotate()
         {
             Hide();
@@ -94,28 +113,20 @@
             {
                 case 0:
                     return new Square(x, y);
-                    break;
                 case 1:
                     return new T(x, y);
-                    break;
                 case 2:
                     return new Z(x, y);
-                    break;
                 case 3:
                     return new S(x, y);
-                    break;
                 case 4:
                     return new L(x, y);
-                    break;
                 case 5:
                     return new J(x, y);
-                    break;
                 case 6:
                     return new Stick(x, y);
-                    break;
                 default:
                     return new Z(x, y);
-                    break;
             }
         }
         public void MoveFromNextToCurrent()

@@ -126,10 +126,6 @@ namespace MyTetris
                     return ValidationResult.BLOCKS_OR_DOWN_BORDER;
             else
                 return ValidationResult.SUCCESS;
-            /*
-            if ((X >= 19 && X <= 38) && (Y >= 0 && Y <= 19))
-                return ValidationResult.SUCCESS;
-            */
         }
         public void AddBlockOnField(Color color)
         {
