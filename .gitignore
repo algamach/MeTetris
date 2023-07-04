@@ -17,3 +17,4 @@ MyTetris/obj/Debug/net6.0/MyTetris.csproj.FileListAbsolute.txt
 MyTetris/obj/Debug/net6.0/MyTetris.GeneratedMSBuildEditorConfig.editorconfig
 MyTetris/obj/Debug/net6.0/MyTetris.GlobalUsings.g.cs
 *.v2
+*.bin
