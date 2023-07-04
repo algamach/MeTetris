@@ -10,6 +10,7 @@ namespace MyTetris
     {
         private static int _count = 0;
         private static int _lines = 0;
+        private static bool _game = true;
         public static int Count
         {
             get
@@ -30,6 +31,17 @@ namespace MyTetris
             set
             {
                 _lines = value;
+            }
+        }
+        public static bool Game
+        {
+            get
+            {
+                return _game;
+            }
+            set
+            {
+                _game = value;
             }
         }
 

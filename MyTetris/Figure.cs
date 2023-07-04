@@ -85,6 +85,7 @@
                         Draw();
                         Life = false;
                         Field.CheckDeleteLine();
+                        CheckIsGameOver();
                     }
                     else goto case ValidationResult.BORDER;
                     break;
@@ -93,7 +94,18 @@
                     break;
             }
         }
-        
+
+        private void CheckIsGameOver()
+        {
+            foreach (var block in Blocks)
+            {
+                if (block.Y == 0)
+                {
+                    Field.GameOver();
+                    break;
+                }
+            }
+        }
 
         public void Rotate()
         {

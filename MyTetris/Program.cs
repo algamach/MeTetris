@@ -38,7 +38,8 @@ internal class Program
                     Monitor.Exit(_lockObject);
                 }
             }
-            GetNextFigure();
+            if (Score.Game)
+                GetNextFigure();
         }
     }
     private static void MoveByButton(ConsoleKeyInfo cki, Figure figure)
@@ -74,6 +75,10 @@ internal class Program
         timer.Elapsed += OnTimedEvent;
         timer.AutoReset = true;
         timer.Enabled = true;
+    }
+    public static void StopTimer()
+    {
+        timer.Enabled = false;
     }
     private static void OnTimedEvent(object? sender, ElapsedEventArgs e)
     {

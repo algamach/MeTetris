@@ -122,5 +122,13 @@
             currentFigure.Draw();
             nextFigure.Draw();
         }
+
+        internal static void GameOver()
+        {
+            Console.SetCursorPosition(21, 10);
+            Console.WriteLine("G A M E  O V E R");
+            Score.Game = false;
+            Program.StopTimer();
+        }
     }
 }
